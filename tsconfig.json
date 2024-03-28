@@ -21,7 +21,17 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@component/*": ["app/component/*"],
+      "@enum/*": ["app/enum/*"],
+      "@guard/*": ["app/guard/*"],
+      "@interceptor/*": ["app/interceptor/*"],
+      "@interface/*": ["app/interface/*"],
+      "@page/*": ["app/page/*"],
+      "@service/*": ["app/service/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
