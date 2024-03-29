@@ -5,8 +5,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {AuthService} from "@service/auth/auth.service";
-import {MatButton} from "@angular/material/button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {RouterLink} from "@angular/router";
+import {LoginData} from "@interface/login-data";
 
 @Component({
   selector: 'app-login',
@@ -18,8 +20,9 @@ import {MatProgressBar} from "@angular/material/progress-bar";
     MatInput,
     NgIf,
     ReactiveFormsModule,
-    MatButton,
-    MatProgressBar
+    MatButtonModule,
+    MatProgressBar,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -28,22 +31,16 @@ export class LoginComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
 
-  isLoading = this.authService.isLoading;
+  isLoading = this.authService.isLoginLoading;
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
   });
 
-  get email() {
-    return this.loginForm.controls.email;
-  }
-  get password() {
-    return this.loginForm.controls.password;
-  }
-
   get emailError() {
-    const errors = this.email.errors;
+    const email = this.loginForm.controls.email;
+    const errors = email.errors;
     let error = '';
     if (errors?.['required']) {
       error = 'Email is required';
@@ -53,7 +50,8 @@ export class LoginComponent {
     return error;
   }
   get passwordError() {
-    const errors = this.password.errors;
+    const password = this.loginForm.controls.password;
+    const errors = password.errors;
     let error = '';
     if (errors?.['required']) {
       error = 'Password is required';
@@ -63,6 +61,6 @@ export class LoginComponent {
 
   submitLoginForm() {
     if (this.loginForm.invalid) return;
-    this.authService.login(this.loginForm.value);
+    this.authService.login(<LoginData>this.loginForm.value);
   }
 }

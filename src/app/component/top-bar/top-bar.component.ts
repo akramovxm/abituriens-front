@@ -5,8 +5,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatToolbar} from "@angular/material/toolbar";
 import {AuthService} from "@service/auth/auth.service";
 import {MatTooltip} from "@angular/material/tooltip";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "@component/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogService} from "@service/confirm-dialog/confirm-dialog.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -23,20 +22,13 @@ import {ConfirmDialogComponent} from "@component/confirm-dialog/confirm-dialog.c
 })
 export class TopBarComponent {
   authService = inject(AuthService);
-
-  dialog = inject(MatDialog);
-  dialogRef: MatDialogRef<ConfirmDialogComponent> | undefined;
+  confirmDialogService = inject(ConfirmDialogService);
 
   openLogoutDialog() {
-    this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      autoFocus: false,
-      data: {
-        title: 'Logout',
-        message: 'Are you sure you want to log out?',
-        onConfirm: () => {
-          this.authService.logout();
-          this.dialogRef?.close();
-        }
-      }});
+    this.confirmDialogService.openDialog(
+      'Logout',
+      'Are you sure you want to log out?',
+      () => this.authService.logout()
+    )
   }
 }

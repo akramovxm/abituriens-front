@@ -1,0 +1,8 @@
+mat-progress-bar {
+  position: absolute;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,17 @@
+div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+mat-progress-bar {
+  position: absolute;
+}
+.tab-icon {
+  margin-right: 5px;
+}

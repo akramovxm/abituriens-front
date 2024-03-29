@@ -5,15 +5,21 @@ import {PupilComponent} from "@page/pupil/pupil.component";
 import {NotFoundComponent} from "@page/not-found/not-found.component";
 import {LayoutComponent} from "@page/layout/layout.component";
 import {LoginComponent} from "@page/login/login.component";
+import {RegisterComponent} from "@page/register/register.component";
+import {notAuthGuard} from "@guard/notAuth.guard";
 import {authGuard} from "@guard/auth.guard";
 import {Role} from "@enum/role";
-import {loginGuard} from "@guard/login.guard";
 
 export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    canActivate: [loginGuard]
+    canActivate: [notAuthGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [notAuthGuard]
   },
   {
     path: '',
