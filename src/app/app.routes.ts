@@ -4,22 +4,21 @@ import {TeacherComponent} from "@page/teacher/teacher.component";
 import {PupilComponent} from "@page/pupil/pupil.component";
 import {NotFoundComponent} from "@page/not-found/not-found.component";
 import {LayoutComponent} from "@page/layout/layout.component";
-import {LoginComponent} from "@page/login/login.component";
-import {RegisterComponent} from "@page/register/register.component";
+import {AuthComponent} from "@page/auth/auth.component";
 import {notAuthGuard} from "@guard/notAuth.guard";
 import {authGuard} from "@guard/auth.guard";
 import {Role} from "@enum/role";
+import {Oauth2RedirectComponent} from "@page/oauth2-redirect/oauth2-redirect.component";
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: AuthComponent,
     canActivate: [notAuthGuard]
   },
   {
-    path: 'register',
-    component: RegisterComponent,
-    canActivate: [notAuthGuard]
+    path: 'oauth2/redirect',
+    component: Oauth2RedirectComponent
   },
   {
     path: '',

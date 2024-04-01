@@ -24,6 +24,7 @@
     ],
     "baseUrl": "./src",
     "paths": {
+      "@animation/*": ["app/animation/*"],
       "@component/*": ["app/component/*"],
       "@enum/*": ["app/enum/*"],
       "@guard/*": ["app/guard/*"],

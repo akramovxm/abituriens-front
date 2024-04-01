@@ -1,42 +1,53 @@
 import {Component, inject} from '@angular/core';
-import {MatCardModule} from "@angular/material/card";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
-import {AuthService} from "@service/auth/auth.service";
-import {MatButtonModule} from "@angular/material/button";
-import {MatProgressBar} from "@angular/material/progress-bar";
 import {RouterLink} from "@angular/router";
+import {AuthService} from "@service/auth/auth.service";
 import {LoginData} from "@interface/login-data";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {fadeIn} from "@animation/fadeIn";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-form',
   standalone: true,
   imports: [
-    MatCardModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonModule,
     MatInput,
     NgIf,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatProgressBar,
-    RouterLink
+    RouterLink,
+    MatGridList,
+    MatGridTile
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  animations: [fadeIn],
+  templateUrl: './login-form.component.html',
+  styleUrl: './login-form.component.css'
 })
-export class LoginComponent {
+export class LoginFormComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
 
   isLoading = this.authService.isLoginLoading;
+  isXSmall = false;
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
   });
+
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .subscribe(res => {
+        this.isXSmall = res.matches;
+      })
+  }
 
   get emailError() {
     const email = this.loginForm.controls.email;

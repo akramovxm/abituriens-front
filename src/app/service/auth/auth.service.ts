@@ -11,12 +11,13 @@ import {Role} from "@enum/role";
 import {RegisterData} from "@interface/register-data";
 import {VerifyDialogService} from "@service/verify-dialog/verify-dialog.service";
 import {VerifyData} from "@interface/verify-data";
+import {API_BASE_URL} from "../../app.constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseURL = 'http://localhost:8080/';
+  baseURL = API_BASE_URL;
   http = inject(HttpClient);
   router = inject(Router);
   snackbar = inject(MatSnackBar);
@@ -60,9 +61,17 @@ export class AuthService {
     return decodedToken.role;
   }
 
+  openErrorSnackbar(err: any) {
+    let message = err.error.message
+    if (err.status === 0) {
+      message = 'Server Error'
+    }
+    this.snackbar.open(message, 'Close', { duration: this.snackbarDuration });
+  }
+
   login(data: LoginData) {
     this.isLoginLoading.next(true);
-    this.http.post<AuthResponse>(this.baseURL + 'auth/login', data)
+    this.http.post<AuthResponse>(this.baseURL + '/auth/login', data)
       .subscribe({
         next: res => {
           this.isLoginLoading.next(false);
@@ -74,11 +83,7 @@ export class AuthService {
         },
         error: err => {
           this.isLoginLoading.next(false);
-          let message = err.error.message
-          if (err.status === 0) {
-            message = 'Server Error'
-          }
-          this.snackbar.open(message, 'Close', { duration: this.snackbarDuration });
+          this.openErrorSnackbar(err);
         }
       });
   }
@@ -87,24 +92,21 @@ export class AuthService {
     this.removeToken();
     this.role.next(null);
     this.isAuth.next(false);
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
 
   register(data: RegisterData) {
     this.isRegisterLoading.next(true);
-    this.http.post<AuthResponse>(this.baseURL + 'auth/register', data)
+    this.http.post<AuthResponse>(this.baseURL + '/auth/register', data)
       .subscribe({
         next: res => {
           this.isRegisterLoading.next(false);
           this.verifyDialogService.openDialog(res.message, data.email);
         },
         error: err => {
+          console.log(err)
           this.isRegisterLoading.next(false);
-          let message = err.error.message
-          if (err.status === 0) {
-            message = 'Server Error'
-          }
-          this.snackbar.open(message, 'Close', { duration: this.snackbarDuration });
+          this.openErrorSnackbar(err);
         }
       })
   }
@@ -114,7 +116,7 @@ export class AuthService {
     if (this.verifyDialogService.dialogRef) {
       this.verifyDialogService.dialogRef.disableClose = true;
     }
-    this.http.post<AuthResponse>(this.baseURL + 'auth/verify', data)
+    this.http.post<AuthResponse>(this.baseURL + '/auth/verify', data)
       .subscribe({
         next: res => {
           this.isVerifyLoading.next(false);
@@ -130,11 +132,7 @@ export class AuthService {
           if (this.verifyDialogService.dialogRef) {
             this.verifyDialogService.dialogRef.disableClose = false;
           }
-          let message = err.error.message
-          if (err.status === 0) {
-            message = 'Server Error'
-          }
-          this.snackbar.open(message, 'Close', { duration: this.snackbarDuration });
+          this.openErrorSnackbar(err);
         }
       })
   }
@@ -144,7 +142,7 @@ export class AuthService {
     if (this.verifyDialogService.dialogRef) {
       this.verifyDialogService.dialogRef.disableClose = true;
     }
-    this.http.post<AuthResponse>(this.baseURL + 'auth/resend-code', { email })
+    this.http.post<AuthResponse>(this.baseURL + '/auth/resend-code', { email })
       .subscribe({
         next: res => {
           this.isResendLoading.next(false);
@@ -158,11 +156,7 @@ export class AuthService {
           if (this.verifyDialogService.dialogRef) {
             this.verifyDialogService.dialogRef.disableClose = false;
           }
-          let message = err.error.message
-          if (err.status === 0) {
-            message = 'Server Error'
-          }
-          this.snackbar.open(message, 'Close', { duration: this.snackbarDuration });
+          this.openErrorSnackbar(err);
         }
       })
   }

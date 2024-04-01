@@ -1,56 +1,68 @@
 import {Component, inject} from '@angular/core';
-import {MatButtonModule} from "@angular/material/button";
-import {MatCardModule} from "@angular/material/card";
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgIf} from "@angular/common";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "@service/auth/auth.service";
-import {RouterLink} from "@angular/router";
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {NgxMaskDirective} from "ngx-mask";
+import {MatButtonModule} from "@angular/material/button";
+import {RouterLink} from "@angular/router";
+import {AuthService} from "@service/auth/auth.service";
 import {RegisterData} from "@interface/register-data";
+import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {fadeIn} from "@animation/fadeIn";
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-register-form',
   standalone: true,
   imports: [
-    MatButtonModule,
-    MatCardModule,
+    FormsModule,
     MatFormFieldModule,
-    MatInput,
-    MatProgressBar,
-    NgIf,
-    ReactiveFormsModule,
-    RouterLink,
+    MatButtonModule,
+    MatDatepicker,
     MatDatepickerInput,
     MatDatepickerToggle,
-    MatDatepicker,
-    NgxMaskDirective
+    MatInput,
+    NgIf,
+    NgxMaskDirective,
+    ReactiveFormsModule,
+    RouterLink,
+    MatGridList,
+    MatGridTile
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en' },
     provideNativeDateAdapter()
   ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  animations: [fadeIn],
+  templateUrl: './register-form.component.html',
+  styleUrl: './register-form.component.css'
 })
-export class RegisterComponent {
+export class RegisterFormComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
 
   isLoading = this.authService.isRegisterLoading;
+  isXSmall = false;
 
   registerForm = this.formBuilder.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required]],
-    birthDate: ['', [Validators.required]]
+    phoneNumber: ['', []],
+    birthDate: ['', []]
   });
+
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .subscribe(res => {
+        this.isXSmall = res.matches;
+      })
+  }
 
   get firstNameError() {
     const firstName = this.registerForm.controls.firstName;
@@ -114,7 +126,6 @@ export class RegisterComponent {
   }
 
   submitRegisterForm() {
-    console.log(this.registerForm)
     if (this.registerForm.invalid) return;
     this.authService.register(<RegisterData>this.registerForm.value);
   }
