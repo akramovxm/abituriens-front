@@ -1,26 +1,22 @@
 import {Component, inject} from '@angular/core';
-import {CommonModule} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {MatToolbar} from "@angular/material/toolbar";
-import {AuthService} from "@service/auth/auth.service";
+import {MatIconButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
+import {AuthService} from "@service/auth/auth.service";
 import {ConfirmDialogService} from "@service/confirm-dialog/confirm-dialog.service";
 
 @Component({
-  selector: 'app-top-bar',
+  selector: 'app-logout-button',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatIcon,
-    MatButtonModule,
-    MatToolbar,
-    MatTooltip
-  ],
-  templateUrl: './top-bar.component.html',
-  styleUrl: './top-bar.component.css'
+    imports: [
+        MatIcon,
+        MatIconButton,
+        MatTooltip
+    ],
+  templateUrl: './logout-button.component.html',
+  styleUrl: './logout-button.component.css'
 })
-export class TopBarComponent {
+export class LogoutButtonComponent {
   authService = inject(AuthService);
   confirmDialogService = inject(ConfirmDialogService);
 

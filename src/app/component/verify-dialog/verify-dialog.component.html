@@ -8,7 +8,7 @@
       <mat-error *ngIf="codeError">{{ codeError }}</mat-error>
     </mat-form-field>
   </form>
-  <button mat-button color="accent" style="align-self: end" (click)="submitResendCode()" [disabled]="isResendLoading.value">
+  <button mat-button class="tertiary-button" style="align-self: end" (click)="submitResendCode()" [disabled]="isResendLoading.value">
     @if (isResendLoading.value) {
       <mat-spinner diameter="20"/>
     } @else {
@@ -22,5 +22,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" form="verifyForm" type="submit" [disabled]="isVerifyLoading.value" style="align-self: end">Verify</button>
+  <button mat-flat-button form="verifyForm" type="submit" [disabled]="isVerifyLoading.value">Verify</button>
 </mat-dialog-actions>

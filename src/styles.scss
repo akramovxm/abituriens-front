@@ -1,40 +1,86 @@
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @include mat.core();
 
-$light-hue: 500;
-$dark-hue: 600;
+//$light-hue: 500;
+//$dark-hue: 600;
+//
+//$primary: mat.$purple-palette;
+//$accent: mat.$blue-grey-palette;
+//$warn: mat.$deep-orange-palette;
+//
+//@function color ($palette, $hue) {
+//  @return mat.define-palette($palette, $hue);
+//}
 
-$primary: mat.$purple-palette;
-$accent: mat.$blue-grey-palette;
-$warn: mat.$deep-orange-palette;
+//$light-theme: mat.define-light-theme((
+//  color: (
+//    primary: color($primary, $light-hue),
+//    accent: color($accent, $light-hue),
+//    warn: color($warn, $light-hue)
+//  ),
+//  typography: mat.define-typography-config(),
+//  density: 0
+//));
+//$dark-theme: mat.define-dark-theme((
+//  color: (
+//    primary: color($primary, $dark-hue),
+//    accent: color($accent, $dark-hue),
+//    warn: color($warn, $dark-hue),
+//  )
+//));
 
-@function color ($palette, $hue) {
-  @return mat.define-palette($palette, $hue);
-}
+//@include mat.all-component-themes($light-theme);
+//
+//@media (prefers-color-scheme: dark) {
+//  @include mat.all-component-colors($dark-theme);
+//}
 
-$light-theme: mat.define-light-theme((
+$m3-light-theme: matx.define-theme((
   color: (
-    primary: color($primary, $light-hue),
-    accent: color($accent, $light-hue),
-    warn: color($warn, $light-hue)
+    theme-type: light,
+    primary: matx.$m3-rose-palette,
+    tertiary: matx.$m3-red-palette
   ),
-  typography: mat.define-typography-config(),
-  density: 0
-));
-$dark-theme: mat.define-dark-theme((
-  color: (
-    primary: color($primary, $dark-hue),
-    accent: color($accent, $dark-hue),
-    warn: color($warn, $dark-hue),
+  typography: (
+    plain-family: 'Roboto',
+    brand-family: 'Roboto'
+  ),
+  density: (
+    scale: 0
   )
 ));
 
-@include mat.all-component-themes($light-theme);
+$m3-dark-theme: matx.define-theme((
+  color: (
+    theme-type: dark,
+    primary: matx.$m3-rose-palette,
+    tertiary: matx.$m3-red-palette
+  ),
+  typography: (
+    brand-family: 'Roboto'
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+body {
+  @include mat.all-component-themes($m3-light-theme);
+}
+.tertiary-button {
+  @include mat.button-color($m3-light-theme, $color-variant: tertiary);
+}
 
 @media (prefers-color-scheme: dark) {
-  @include mat.all-component-colors($dark-theme);
+  body {
+    @include mat.all-component-colors($m3-dark-theme);
+  }
+  .tertiary-button {
+    @include mat.button-color($m3-dark-theme, $color-variant: tertiary);
+  }
 }
