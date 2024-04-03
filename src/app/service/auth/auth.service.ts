@@ -9,7 +9,6 @@ import {LoginData} from "@interface/login-data";
 import {DecodedToken} from "@interface/decoded-token";
 import {Role} from "@enum/role";
 import {RegisterData} from "@interface/register-data";
-import {VerifyDialogService} from "@service/verify-dialog/verify-dialog.service";
 import {VerifyData} from "@interface/verify-data";
 import {API_BASE_URL} from "../../app.constants";
 
@@ -21,7 +20,6 @@ export class AuthService {
   http = inject(HttpClient);
   router = inject(Router);
   snackbar = inject(MatSnackBar);
-  verifyDialogService = inject(VerifyDialogService);
 
   isLoginLoading = new BehaviorSubject(false);
   isRegisterLoading = new BehaviorSubject(false);
@@ -101,7 +99,8 @@ export class AuthService {
       .subscribe({
         next: res => {
           this.isRegisterLoading.next(false);
-          this.verifyDialogService.openDialog(res.message, data.email);
+          sessionStorage.setItem('email', data.email);
+          this.router.navigate(['/verify-email'])
         },
         error: err => {
           console.log(err)
@@ -113,25 +112,16 @@ export class AuthService {
 
   verify(data: VerifyData) {
     this.isVerifyLoading.next(true);
-    if (this.verifyDialogService.dialogRef) {
-      this.verifyDialogService.dialogRef.disableClose = true;
-    }
+
     this.http.post<AuthResponse>(this.baseURL + '/auth/verify', data)
       .subscribe({
         next: res => {
           this.isVerifyLoading.next(false);
-          if (this.verifyDialogService.dialogRef) {
-            this.verifyDialogService.dialogRef.disableClose = false;
-          }
-          this.verifyDialogService.closeDialog();
-          this.router.navigate(['/'])
+          this.router.navigate(['/sign-in'])
           this.snackbar.open(res.message, 'Close', { duration: this.snackbarDuration });
         },
         error: err => {
           this.isVerifyLoading.next(false);
-          if (this.verifyDialogService.dialogRef) {
-            this.verifyDialogService.dialogRef.disableClose = false;
-          }
           this.openErrorSnackbar(err);
         }
       })
@@ -139,23 +129,14 @@ export class AuthService {
 
   resendCode(email: string) {
     this.isResendLoading.next(true);
-    if (this.verifyDialogService.dialogRef) {
-      this.verifyDialogService.dialogRef.disableClose = true;
-    }
     this.http.post<AuthResponse>(this.baseURL + '/auth/resend-code', { email })
       .subscribe({
         next: res => {
           this.isResendLoading.next(false);
-          if (this.verifyDialogService.dialogRef) {
-            this.verifyDialogService.dialogRef.disableClose = false;
-          }
           this.snackbar.open(res.message, 'Close', { duration: this.snackbarDuration });
         },
         error: err => {
           this.isResendLoading.next(false);
-          if (this.verifyDialogService.dialogRef) {
-            this.verifyDialogService.dialogRef.disableClose = false;
-          }
           this.openErrorSnackbar(err);
         }
       })

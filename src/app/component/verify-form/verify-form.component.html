@@ -1,0 +1,26 @@
+<form [formGroup]="verifyForm" (ngSubmit)="submitVerifyForm()">
+  <h1 class="mat-headline-3">Verify email</h1>
+  <div class="change-email-div">
+    <p class="mat-headline-6" style="margin-bottom: 0">{{ email }}</p>
+    <button mat-icon-button type="button" matTooltip="Change Email">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>Verify Code</mat-label>
+    <input matInput required type="text" maxlength="4" formControlName="verifyCode"/>
+    <mat-error *ngIf="codeError">{{ codeError }}</mat-error>
+  </mat-form-field>
+  <button mat-button type="button" class="tertiary-button resend-button" (click)="submitResendCode()" [disabled]="isResendLoading">
+    @if (isResendLoading) {
+      <mat-spinner diameter="20"/>
+    } @else {
+      Resend code
+    }
+  </button>
+  <div>
+    <mat-icon>info</mat-icon>
+    <p class="mat-subtitle-2">Registration completed successfully. Check and verify your email</p>
+  </div>
+  <button class="submit-button" mat-flat-button type="submit" [disabled]="isVerifyLoading">Verify</button>
+</form>

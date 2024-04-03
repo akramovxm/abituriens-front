@@ -1,0 +1,20 @@
+<form [formGroup]="signInForm" (ngSubmit)="submitSignInForm()">
+  <h1 class="mat-headline-3">Sign in</h1>
+  <div class="form-fields-div">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput required type="text" formControlName="email"/>
+      <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput required type="password" formControlName="password"/>
+      <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
+    </mat-form-field>
+  </div>
+  <button mat-button type="button" class="tertiary-button forgot-password-button">Forgot Password?</button>
+  <div class="buttons-div">
+    <a mat-button routerLink="/sign-up">Create Account</a>
+    <button mat-flat-button type="submit" [disabled]="isLoading">Sign in</button>
+  </div>
+</form>

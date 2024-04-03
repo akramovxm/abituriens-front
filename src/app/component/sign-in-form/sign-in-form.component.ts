@@ -7,12 +7,9 @@ import {NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {AuthService} from "@service/auth/auth.service";
 import {LoginData} from "@interface/login-data";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {fadeIn} from "@animation/fadeIn";
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-sign-in-form',
   standalone: true,
   imports: [
     FormsModule,
@@ -21,36 +18,25 @@ import {fadeIn} from "@animation/fadeIn";
     MatInput,
     NgIf,
     ReactiveFormsModule,
-    RouterLink,
-    MatGridList,
-    MatGridTile
+    RouterLink
   ],
-  animations: [fadeIn],
-  templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.css'
+  templateUrl: './sign-in-form.component.html',
+  styleUrl: './sign-in-form.component.css'
 })
-export class LoginFormComponent {
+export class SignInFormComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
 
-  isLoading = this.authService.isLoginLoading;
-  isXSmall = false;
-
-  loginForm = this.formBuilder.group({
+  signInForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
   });
 
-  constructor(breakpointObserver: BreakpointObserver) {
-    breakpointObserver
-      .observe([Breakpoints.XSmall])
-      .subscribe(res => {
-        this.isXSmall = res.matches;
-      })
+  get isLoading() {
+    return this.authService.isLoginLoading.value;
   }
-
   get emailError() {
-    const email = this.loginForm.controls.email;
+    const email = this.signInForm.controls.email;
     const errors = email.errors;
     let error = '';
     if (errors?.['required']) {
@@ -61,7 +47,7 @@ export class LoginFormComponent {
     return error;
   }
   get passwordError() {
-    const password = this.loginForm.controls.password;
+    const password = this.signInForm.controls.password;
     const errors = password.errors;
     let error = '';
     if (errors?.['required']) {
@@ -70,8 +56,8 @@ export class LoginFormComponent {
     return error;
   }
 
-  submitLoginForm() {
-    if (this.loginForm.invalid) return;
-    this.authService.login(<LoginData>this.loginForm.value);
+  submitSignInForm() {
+    if (this.signInForm.invalid) return;
+    this.authService.login(<LoginData>this.signInForm.value);
   }
 }

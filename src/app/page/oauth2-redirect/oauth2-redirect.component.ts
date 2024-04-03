@@ -28,8 +28,10 @@ export class Oauth2RedirectComponent implements OnInit {
         this.router.navigate([decodedToken.role.toLowerCase()])
       } else if (error) {
         this.snackbar.open(error, 'Close', { duration: 5000 });
+        this.router.navigate(['/'])
+      } else {
+        this.router.navigate(['/'])
       }
-      this.router.navigate(['/'])
     });
   }
 }

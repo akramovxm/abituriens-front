@@ -1,0 +1,7 @@
+@media (min-width: 600px) {
+  app-verify-form {
+    flex-basis: 50%;
+    flex-grow: 1;
+    max-width: 50%;
+  }
+}

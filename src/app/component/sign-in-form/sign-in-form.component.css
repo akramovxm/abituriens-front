@@ -1,0 +1,36 @@
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+mat-form-field {
+  width: 100%;
+  height: min-content;
+}
+.forgot-password-button {
+  align-self: end;
+  margin-bottom: 2rem;
+}
+.buttons-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 960px) {
+  .form-fields-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+  }
+  mat-form-field:nth-child(1) {
+    flex-basis: calc(50% - 0.25rem);
+    flex-grow: 1;
+    max-width: calc(50% - 0.25rem);
+    margin-right: 0.5rem;
+  }
+  mat-form-field:nth-child(2) {
+    flex-basis: calc(50% - 0.25rem);
+    flex-grow: 1;
+    max-width: calc(50% - 0.25rem);
+  }
+}

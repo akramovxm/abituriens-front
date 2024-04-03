@@ -1,0 +1,23 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+mat-form-field {
+  width: 100%;
+  height: min-content;
+}
+.resend-button {
+  align-self: end;
+  margin-bottom: 2rem;
+}
+.buttons-div {
+  display: flex;
+  justify-content: space-between;
+}
+.submit-button {
+  align-self: end;
+}
+.change-email-div {
+  display: flex;
+  align-items: center;
+}

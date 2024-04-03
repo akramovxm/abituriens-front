@@ -1,0 +1,32 @@
+form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+mat-form-field {
+  width: 100%;
+  height: min-content;
+}
+.buttons-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 960px) {
+  .form-fields-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+  }
+  mat-form-field:nth-child(odd) {
+    flex-basis: calc(50% - 0.25rem);
+    flex-grow: 1;
+    max-width: calc(50% - 0.25rem);
+    margin-right: 0.5rem;
+  }
+  mat-form-field:nth-child(even) {
+    flex-basis: calc(50% - 0.25rem);
+    flex-grow: 1;
+    max-width: calc(50% - 0.25rem);
+  }
+}

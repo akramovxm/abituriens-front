@@ -12,10 +12,9 @@ import {RegisterData} from "@interface/register-data";
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {fadeIn} from "@animation/fadeIn";
 
 @Component({
-  selector: 'app-register-form',
+  selector: 'app-sign-up-form',
   standalone: true,
   imports: [
     FormsModule,
@@ -36,15 +35,13 @@ import {fadeIn} from "@animation/fadeIn";
     { provide: MAT_DATE_LOCALE, useValue: 'en' },
     provideNativeDateAdapter()
   ],
-  animations: [fadeIn],
-  templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.css'
+  templateUrl: './sign-up-form.component.html',
+  styleUrl: './sign-up-form.component.css'
 })
-export class RegisterFormComponent {
+export class SignUpFormComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
 
-  isLoading = this.authService.isRegisterLoading;
   isXSmall = false;
 
   registerForm = this.formBuilder.group({
@@ -64,6 +61,9 @@ export class RegisterFormComponent {
       })
   }
 
+  get isLoading() {
+    return this.authService.isRegisterLoading.value;
+  }
   get firstNameError() {
     const firstName = this.registerForm.controls.firstName;
     const errors = firstName.errors;

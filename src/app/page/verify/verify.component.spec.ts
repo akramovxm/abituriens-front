@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VerifyDialogComponent } from './verify-dialog.component';
+import { VerifyComponent } from './verify.component';
 
-describe('VerifyDialogComponent', () => {
-  let component: VerifyDialogComponent;
-  let fixture: ComponentFixture<VerifyDialogComponent>;
+describe('VerifyComponent', () => {
+  let component: VerifyComponent;
+  let fixture: ComponentFixture<VerifyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerifyDialogComponent]
+      imports: [VerifyComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(VerifyDialogComponent);
+    fixture = TestBed.createComponent(VerifyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
