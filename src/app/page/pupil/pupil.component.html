@@ -1,1 +1,29 @@
-<p>pupil works!</p>
+<mat-sidenav-container hasBackdrop>
+  <mat-sidenav #sidenav mode="side">
+    <p class="mat-headline-6" style="margin-bottom: 0; margin-left: 1rem; margin-top: 2rem">Abituriens</p>
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let route of routes"
+        [routerLink]="route.path"
+        [activated]="router.url === route.path"
+        (click)="sidenav.toggle()"
+      >
+        <mat-icon matListItemIcon>{{ route.iconName }}</mat-icon>
+        <div matListItemTitle>{{ route.title }}</div>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-divider/>
+  </mat-sidenav>
+  <mat-sidenav-content style="min-height: 100vh">
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span style="flex: 1 1 auto;"></span>
+      <app-logout-button/>
+    </mat-toolbar>
+    <div style="max-width: 90%; margin: 0 auto">
+      <router-outlet/>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

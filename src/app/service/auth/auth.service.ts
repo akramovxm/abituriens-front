@@ -1,7 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject} from "rxjs";
 import {jwtDecode} from "jwt-decode";
 import {AuthResponse} from "@interface/auth-response";
@@ -10,22 +8,18 @@ import {DecodedToken} from "@interface/decoded-token";
 import {Role} from "@enum/role";
 import {RegisterData} from "@interface/register-data";
 import {VerifyData} from "@interface/verify-data";
-import {API_BASE_URL} from "../../app.constants";
+import {BaseService} from "@service/base/base.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  baseURL = API_BASE_URL;
-  http = inject(HttpClient);
+export class AuthService extends BaseService {
   router = inject(Router);
-  snackbar = inject(MatSnackBar);
 
   isLoginLoading = new BehaviorSubject(false);
   isRegisterLoading = new BehaviorSubject(false);
   isVerifyLoading = new BehaviorSubject(false);
   isResendLoading = new BehaviorSubject(false);
-  snackbarDuration = 5000;
 
   role = new BehaviorSubject<Role | null>(this.getRoleFromToken());
   isAuth = new BehaviorSubject(!this.isTokenExpired());

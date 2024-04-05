@@ -6,6 +6,7 @@ form {
 mat-form-field {
   width: 100%;
   height: min-content;
+  margin-bottom: 0.5rem;
 }
 .forgot-password-button {
   align-self: end;

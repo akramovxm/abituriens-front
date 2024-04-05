@@ -3,6 +3,9 @@
     <a mat-button routerLink="/sign-up">Create Account</a>
     <a mat-stroked-button routerLink="/sign-in">Sign in</a>
   } @else {
+    <a mat-icon-button matTooltip="Profile" [routerLink]="profilePath">
+      <mat-icon>account_circle</mat-icon>
+    </a>
     <app-logout-button/>
   }
 </div>

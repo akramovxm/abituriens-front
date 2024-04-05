@@ -7,10 +7,14 @@ import {HomeComponent} from "@page/home/home.component";
 import {SignInComponent} from "@page/sign-in/sign-in.component";
 import {SignUpComponent} from "@page/sign-up/sign-up.component";
 import {VerifyComponent} from "@page/verify/verify.component";
+import {TopicsComponent} from "@page/pupil/topics/topics.component";
+import {DashboardComponent} from "@page/pupil/dashboard/dashboard.component";
+import {TopicComponent} from "@page/pupil/topics/topic/topic.component";
+import {OverviewComponent} from "@page/pupil/topics/overview/overview.component";
 import {Oauth2RedirectComponent} from "@page/oauth2-redirect/oauth2-redirect.component";
+import {Role} from "@enum/role";
 import {notAuthGuard} from "@guard/notAuth.guard";
 import {authGuard} from "@guard/auth.guard";
-import {Role} from "@enum/role";
 import {verifyGuard} from "@guard/verify.guard";
 
 export const routes: Routes = [
@@ -53,7 +57,27 @@ export const routes: Routes = [
     path: Role.PUPIL.toLowerCase(),
     component: PupilComponent,
     canActivate: [authGuard],
-    data: { role: Role.PUPIL }
+    data: { role: Role.PUPIL },
+    children: [
+      {
+        path: '',
+        component: DashboardComponent
+      },
+      {
+        path: 'topics',
+        component: TopicsComponent,
+        children: [
+          {
+            path: '',
+            component: OverviewComponent
+          },
+          {
+            path: ':path',
+            component: TopicComponent
+          }
+        ]
+      }
+    ]
   },
   {
     path: '**',

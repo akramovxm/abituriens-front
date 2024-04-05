@@ -1,7 +1,7 @@
 <div class="outer">
   <div class="inner">
     <h1 class="mat-headline-1 text">404</h1>
-    <mat-divider vertical/>
+    <mat-divider [vertical]="!isSmall"/>
     <span class="mat-headline-4 text">Not found</span>
   </div>
   <a mat-stroked-button (click)="onBackClick()">Back</a>

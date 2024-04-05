@@ -3,6 +3,7 @@ import {MatDivider} from "@angular/material/divider";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
 import {Location} from "@angular/common";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-not-found',
@@ -17,7 +18,17 @@ import {Location} from "@angular/common";
 })
 export class NotFoundComponent {
   location = inject(Location);
+  isSmall = false;
+
   onBackClick() {
     this.location.back();
+  }
+
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([Breakpoints.XSmall])
+      .subscribe(res => {
+        this.isSmall = res.matches;
+      })
   }
 }
